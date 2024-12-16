@@ -23,7 +23,7 @@ Here's how to use the SDK in your Python project:
 
 ### Import the SDK and Initialize
 ```python
-from roolink import RooLink
+from roolink_sdk import RooLink
 
 # Initialize the RooLink SDK
 api_key = "your_api_key"
