@@ -53,9 +53,10 @@ print("Sensor Data:", sensor_data)
 ```
 ### Generate SBSD Body
 ```python
+url = "https://example.com/"
 vid = "sample_vid"
 cookie = "sample_cookie"
-sbsd_body = session.generate_sbsd_body(vid, cookie)
+sbsd_body = session.generate_sbsd_body(url, vid, cookie)
 print("SBSD Body:", sbsd_body)
 ```
 ### Generate Pixel Data
