@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="roolink-sdk",
-    version="1.0.0",
+    version="1.0.1",
     description="A Python SDK for interacting with the RooLink API",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
