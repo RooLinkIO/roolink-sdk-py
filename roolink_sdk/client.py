@@ -43,7 +43,7 @@ class RooLink:
 		url = f"{self.BASE_URL}/parse"
 		return self._request("POST", url, headers=headers, data=script_body)
 
-	def generate_sensor_data(self, abck, bm_sz, script_data=None, sec_cpt=False, stepper=False, index=2, flags="") -> str:
+	def generate_sensor_data(self, abck, bm_sz, script_data=None, sec_cpt=False, stepper=False, index=2, flags="", keyboard=False) -> str:
 		"""
 		Generate sensor data.
 
@@ -53,7 +53,8 @@ class RooLink:
 		:param sec_cpt: (Optional) Enable sec_cpt mode.
 		:param stepper: (Optional) Enable stepper mode. Use this only if you are having issues generating a valid cookie
 		:param index: (Optional - required if using stepper mode) Index parameter for generation. Works with Stepper mode to get a specific sensor index.
-		:param flags: Additional flags as a string.
+		:param flags: (Optional) Additional flags as a string.
+		:param keyboard: (Optional) Enables Keyboard events
 		:return: Generated sensor data as a JSON string.
 		"""
 		headers = self._default_headers()
@@ -65,7 +66,8 @@ class RooLink:
 			"sec_cpt": sec_cpt,
 			"stepper": stepper,
 			"index": index,
-			"flags": flags
+			"flags": flags,
+			"keyboard": keyboard
 		}
 		if script_data:
 			payload["scriptData"] = script_data
@@ -74,21 +76,21 @@ class RooLink:
 		response = self._request("POST", url, headers=headers, json=payload)
 		return json.dumps({"sensor_data": response.get("sensor")})
 
-	def generate_sbsd_body(self, vid, cookie, static=False) -> dict:
+	def generate_sbsd_body(self, url, vid, cookie) -> dict:
 		"""
 		Generate the SBSD body.
 
+		:param url: Url of the original page you were trying to get (the referrer)
 		:param vid: The vid parameter.
 		:param cookie: The bm_o, sbsd_o, or bm_so cookie value.
-		:param static: Uses the static challenge if True. Use this if you are having issues passing the challenge.
 		:return: Generated SBSD body as a dictionary.
 		"""
 		headers = self._default_headers()
 		payload = {
+			"url": url,
 			"userAgent": self.user_agent,
 			"vid": vid,
-			"bm_o": cookie,
-			"static": static
+			"bm_o": cookie
 		}
 		url = f"{self.BASE_URL}/sbsd"
 		return self._request("POST", url, headers=headers, json=payload)
